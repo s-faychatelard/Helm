@@ -1,0 +1,13 @@
+
+.DS_Store
+Makefile
+MakeFile.Debug
+MakeFile.Release
+object_script.Helm.Debug
+object_script.Helm.Release
+*.o
+*.pro.user
+moc_*.cpp
+qrc_resources.cpp
+Helm.app
+*.exe

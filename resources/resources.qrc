@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fullscreen.png</file>
+        <file>window.png</file>
+        <file>close-hover.png</file>
+        <file>minimize-hover.png</file>
+        <file>resize-hover.png</file>
+        <file>fullscreen-hover.png</file>
+        <file>fullscreen-pressed.png</file>
+        <file>favicon.png</file>
+        <file>mainbg.png</file>
+        <file>sharebg.png</file>
+    </qresource>
+</RCC>
