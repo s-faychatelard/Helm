@@ -18,9 +18,7 @@ To remove a Tab, press Alt and then Down or use Cmd+W
 
 - The popup address and the sharing view when you drag a text or an image inside a webpage are currently in development.
 
-# Compiling
-
-- Helm 
+# Compiling Helm
 
 You must install Qt 5.0.+ to compile the project.
 
