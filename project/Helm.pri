@@ -13,10 +13,6 @@ QMAKE += -j3
 
 DESTDIR = ./
 
-INCLUDEPATH += ../../includes/others/mac/
-INCLUDEPATH     += /System/Library/Frameworks/AppKit.framework/Headers
-INCLUDEPATH     += /System/Library/Frameworks/IOKit.framework/Headers
-
 HEADERS     +=  ../../includes/application.h \
                 ../../includes/centralwidget.h \
                 ../../includes/control.h \

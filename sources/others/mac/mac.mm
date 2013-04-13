@@ -1,6 +1,6 @@
 #include "../../includes/others/mac/mac.h"
 
-#include "AppKit.h"
+#import <AppKit/AppKit.h>
 
 Mac::Mac(QWidget* w)
 {
