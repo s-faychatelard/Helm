@@ -114,7 +114,7 @@ void MainWindow::wheelEvent(QWheelEvent *e)
 
     mWheel += e->delta()/40;
 
-    qDebug() << "mWheel : " << mWheel;
+    /*qDebug() << "mWheel : " << mWheel;
 
     if (mWheel < -40)
     {
@@ -125,7 +125,7 @@ void MainWindow::wheelEvent(QWheelEvent *e)
     {
         mWebContainer->switchToPreviousTab();
         mWheel = 0;
-    }
+    }*/
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
