@@ -214,7 +214,10 @@ void WebContainer::removeTab()
     connect(animation, SIGNAL(finished()), mWebViews->at(mCurrentWebView), SLOT(hide()));
     animation->setDuration(ANIMATION_DURATION);
     animation->setStartValue(mWebViews->at(mCurrentWebView)->geometry());
-    animation->setEndValue(QRect(mWebViews->at(mCurrentWebView)->geometry().x(), this->height(), mWebViews->at(mCurrentWebView)->geometry().width(), mWebViews->at(mCurrentWebView)->geometry().height()));
+
+    animation->setEndValue(QRect(mWebViews->at(mCurrentWebView)->geometry().x(), this->height(),
+                                 mWebViews->at(mCurrentWebView)->geometry().width(),
+                                 mWebViews->at(mCurrentWebView)->geometry().height()));
     animation->start();
 
     mWebViews->removeAt(mCurrentWebView);
@@ -269,7 +272,7 @@ void WebContainer::showTab(int index)
 
         int offset = 0;
         if (m->isAltPressed())
-            offset = VISIBLE_MARGIN - 10;
+            offset = LEFT_OFFSET;
 
         QPropertyAnimation *animation = new QPropertyAnimation(mWebViews->at(index - 1), "geometry");
         animation->setDuration(ANIMATION_DURATION);
@@ -328,7 +331,7 @@ void WebContainer::switchAnimated(int previousTab, int newTab)
 
     int offset = 0;
     if (m->isAltPressed())
-        offset = VISIBLE_MARGIN - 10;
+        offset = LEFT_OFFSET;
 
     int hasLeft = 0;
     int hasRight = 0;

@@ -6,8 +6,9 @@
 #include "home.h"
 #include "webview.h"
 
-#define MARGIN 20
-#define VISIBLE_MARGIN 50
+#define MARGIN 50
+#define VISIBLE_MARGIN 80
+#define LEFT_OFFSET VISIBLE_MARGIN + 20
 #define ANIMATION_DURATION 160
 #define DEFAULT_PAGE "about:blank"
 
