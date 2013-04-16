@@ -4,6 +4,7 @@
 #include <QtWidgets>
 
 #include "home.h"
+#include "tab.h"
 #include "webview.h"
 
 #define MARGIN 50
@@ -27,6 +28,7 @@ public:
     void hideSwitcher();
     void switchToNextTab();
     void switchToPreviousTab();
+    void switchToTab(int index);
 
 protected:
     void keyPressEvent(QKeyEvent *);
@@ -50,6 +52,7 @@ private:
     QString mUrlToLoad;
 
     Home *mHome;
+    Tab *mTab;
 
     int mCurrentWebView;
     int mLastFocusedIndexElement;
@@ -59,7 +62,6 @@ private:
     void showHome();
     void hideHome();
     void showTab(int index);
-    void switchToTab(int index);
     void disconnectCurrentWebView();
     void switchAnimated(int previousTab, int newTab);
 };

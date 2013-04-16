@@ -22,6 +22,7 @@ HEADERS     +=  ../../includes/application.h \
                 ../../includes/scrollbar.h \
                 ../../includes/searchview.h \
                 ../../includes/shareview.h \
+                ../../includes/tab.h \
                 ../../includes/topbar.h \
                 ../../includes/urlfield.h \
                 ../../includes/webcontainer.h \
@@ -39,6 +40,7 @@ SOURCES     +=  ../../sources/application.cpp \
                 ../../sources/scrollbar.cpp \
                 ../../sources/searchview.cpp \
                 ../../sources/shareview.cpp \
+                ../../sources/tab.cpp \
                 ../../sources/topbar.cpp \
                 ../../sources/urlfield.cpp \
                 ../../sources/webcontainer.cpp \

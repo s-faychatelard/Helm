@@ -17,6 +17,9 @@ WebContainer::WebContainer(QWidget *parent) : QWidget(parent)
 
     mWebViews = new QList<WebView*>();
 
+    mTab = new Tab(this);
+    mTab->hide();
+
     mHome = new Home(this);
     mHome->show();
 
@@ -39,6 +42,13 @@ WebView* WebContainer::getWebView()
 void WebContainer::showHome()
 {
     if (mHome->isVisible()) return;
+
+    QPropertyAnimation *animation = new QPropertyAnimation(mTab, "geometry");
+    connect(animation, SIGNAL(finished()), mTab, SLOT(hide()));
+    animation->setDuration(ANIMATION_DURATION);
+    animation->setStartValue(mTab->geometry());
+    animation->setEndValue(QRect(this->width(), 0, this->width(), 0));
+    animation->start();
 
     if (mCurrentWebView != -1)
     {
@@ -63,7 +73,7 @@ void WebContainer::showHome()
 
     Application::getWindow()->getTopBar()->getUrlField()->hide();
 
-    QPropertyAnimation *animation = new QPropertyAnimation(mHome, "geometry");
+    animation = new QPropertyAnimation(mHome, "geometry");
     animation->setDuration(ANIMATION_DURATION);
     animation->setStartValue(QRect(-this->width(), 0, this->width() - 2, this->height() - 1));
     animation->setEndValue(QRect(1, 0, this->width() - 2, this->height() - 1));
@@ -76,6 +86,13 @@ void WebContainer::showHome()
 
 void WebContainer::hideHome()
 {
+    QPropertyAnimation *animation = new QPropertyAnimation(mTab, "geometry");
+    animation->setDuration(ANIMATION_DURATION);
+    animation->setStartValue(QRect(this->width(), 0, this->width(), 0));
+    animation->setEndValue(QRect(0, 0, this->width(), 0));
+    animation->start();
+    mTab->show();
+
     if (mCurrentWebView != -1)
     {
         QPropertyAnimation *animation = new QPropertyAnimation(mWebViews->at(mCurrentWebView), "geometry");
@@ -87,7 +104,7 @@ void WebContainer::hideHome()
 
     Application::getWindow()->getTopBar()->getUrlField()->show();
 
-    QPropertyAnimation *animation = new QPropertyAnimation(mHome, "geometry");
+    animation = new QPropertyAnimation(mHome, "geometry");
     connect(animation, SIGNAL(finished()), mHome, SLOT(hide()));
     animation->setDuration(ANIMATION_DURATION);
     animation->setStartValue(mHome->geometry());
@@ -455,6 +472,8 @@ void WebContainer::switchToPreviousTab()
 
 void WebContainer::showSwitcher()
 {
+    mTab->updateWithWebViews(mWebViews);
+
     for(int i=0; i<mWebViews->count(); i++)
     {
         mWebViews->at(i)->hide();
@@ -527,7 +546,10 @@ void WebContainer::resizeEvent(QResizeEvent *)
 {
     if (mCurrentWebView != -1)
         mWebViews->at(mCurrentWebView)->setGeometry(QRect(1, 0, this->width() - 2, this->height() - 1));
+
     mHome->setGeometry(QRect(1, 0, this->width() - 2, this->height() - 1));
+
+    mTab->resize(this->width(), 0);
 }
 
 void WebContainer::keyPressEvent(QKeyEvent *e)
