@@ -261,6 +261,9 @@ void WebContainer::removeTab()
         m->getTopBar()->getUrlField()->setTitle("");
         m->getTopBar()->getUrlField()->setIcon(QPixmap());
     }
+
+    mTab->updateWithWebViews(mWebViews);
+    mTab->select(mCurrentWebView);
 }
 
 void WebContainer::showTab(int index)
@@ -318,6 +321,8 @@ void WebContainer::showTab(int index)
     animation->setStartValue(QRect(2, 2, this->width() - 4, this->height() - 4));
     animation->setEndValue(QRect(MARGIN + hasLeft, MARGIN, this->width() - MARGIN*2 - hasLeft - hasRight, this->height() - MARGIN*2));
     animation->start();
+
+    mTab->select(index);
 }
 
 void WebContainer::switchAnimated(int previousTab, int newTab)
@@ -418,6 +423,8 @@ void WebContainer::switchAnimated(int previousTab, int newTab)
     animation->setStartValue(mWebViews->at(newTab)->geometry());
     animation->setEndValue(QRect(MARGIN + hasLeft, MARGIN, this->width() - MARGIN*2 - hasLeft - hasRight, this->height() - MARGIN*2));
     animation->start();
+
+    mTab->select(newTab);
 }
 
 void WebContainer::switchToTab(int index)

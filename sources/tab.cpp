@@ -4,9 +4,18 @@
 
 #include <QtCore/QDebug>
 
+#define MAX_WIDTH_TAB 150
+
 TabItem::TabItem(QWidget *parent) : QAbstractButton(parent)
 {
     this->setFixedHeight(25);
+}
+
+void TabItem::setSelected(bool isSelected)
+{
+    mSelected = isSelected;
+
+    this->repaint();
 }
 
 void TabItem::paintEvent(QPaintEvent *)
@@ -17,7 +26,10 @@ void TabItem::paintEvent(QPaintEvent *)
 
     QRect rect = this->rect();
 
-    p.setBrush(QColor("#c8c8c8"));
+    if (mSelected)
+        p.setBrush(QColor("#7683c6"));
+    else
+        p.setBrush(QColor("#c8c8c8"));
     p.drawRoundedRect(rect, 2, 2);
 
     rect.setX(rect.x() + 1);
@@ -31,14 +43,23 @@ void TabItem::paintEvent(QPaintEvent *)
     p.setBrush(g);
     p.drawRoundedRect(rect, 2, 2);
 
+    rect.setX(rect.x() + 10);
+    rect.setWidth(rect.width() - 10);
+
     p.setPen(Qt::black);
-    p.drawText(rect, Qt::AlignCenter, this->text());
+    p.drawText(rect, Qt::AlignVCenter, this->text());
 }
 
 Tab::Tab(QWidget *parent) : QWidget(parent)
 {
     this->setAcceptDrops(false);
     this->setFixedHeight(50);
+
+    QHBoxLayout *hLayout = new QHBoxLayout(this);
+    hLayout->setAlignment(Qt::AlignCenter);
+    hLayout->setSpacing(5);
+    hLayout->setMargin(10);
+    this->setLayout(hLayout);
 }
 
 void Tab::clicked()
@@ -47,10 +68,30 @@ void Tab::clicked()
     Application::getWindow()->getWebContainer()->switchToTab(mItems.indexOf(item));
 }
 
+void Tab::select(int index)
+{
+    for(int i=0; i<mItems.count(); i++)
+    {
+        mItems.at(i)->setSelected(false);
+        if (i == index)
+            mItems.at(i)->setSelected();
+    }
+}
 
 void Tab::updateWithWebViews(QList<WebView*>* webviews)
 {
+    for(int i=0; i<mItems.count(); i++)
+    {
+        this->layout()->removeWidget(mItems.at(i));
+        mItems.at(i)->hide();
+    }
+
     mItems.clear();
+
+    if (webviews->count() <= 1)
+        this->hide();
+    else
+        this->show();
 
     int xOffset=10;
     for (int i=0; i<webviews->count(); i++)
@@ -66,10 +107,15 @@ void Tab::updateWithWebViews(QList<WebView*>* webviews)
             item->setText("No title");
         }
 
-        item->resize(50, 0);
+        QFontMetrics metrics = item->fontMetrics();
+        int width = metrics.width(item->text());
 
-        item->move(xOffset, 12);
-        item->show();
+        if (width > MAX_WIDTH_TAB)
+            width = MAX_WIDTH_TAB;
+
+        item->setFixedWidth(width + 25);
+
+        this->layout()->addWidget(item);
 
         mItems.push_back(item);
 
