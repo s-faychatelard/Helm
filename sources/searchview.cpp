@@ -176,17 +176,21 @@ void SearchView::requestEnded(QNetworkReply *e)
         mWidgets.at(i)->hide();
     mWidgets.clear();
 
-    /* Google search */
-    SearchViewTitle *titleGoogleSearch = new SearchViewTitle("Google Search", mWidget);
-    mWidgets.push_back(titleGoogleSearch);
-
-    mGoogleSearch.clear();
-
     QDomDocument xml;
     if (xml.setContent(e->readAll()))
     {
         QDomElement root = xml.documentElement();
         QDomNodeList topLevel = root.childNodes();
+
+        /* Google search */
+        if (topLevel.count() > 0)
+        {
+            SearchViewTitle *titleGoogleSearch = new SearchViewTitle("Google Search", mWidget);
+            mWidgets.push_back(titleGoogleSearch);
+
+            mGoogleSearch.clear();
+        }
+
         for(int i=0; i<topLevel.count(); i++)
         {
             QDomElement suggestion = topLevel.at(i).toElement();
@@ -204,8 +208,11 @@ void SearchView::requestEnded(QNetworkReply *e)
         }
     }
 
-    SearchViewSeparator *sepGoogleSearch = new SearchViewSeparator(mWidget);
-    mWidgets.push_back(sepGoogleSearch);
+    if (mGoogleSearch.count() > 0)
+    {
+        SearchViewSeparator *sepGoogleSearch = new SearchViewSeparator(mWidget);
+        mWidgets.push_back(sepGoogleSearch);
+    }
 
     /* Service */
     SearchViewTitle *titleService = new SearchViewTitle("Services", mWidget);
@@ -222,25 +229,28 @@ void SearchView::requestEnded(QNetworkReply *e)
         mWidgets.push_back(it);
     }
 
-    SearchViewSeparator *sepService = new SearchViewSeparator(mWidget);
-    mWidgets.push_back(sepService);
-
     if (mWord.isEmpty())
     {
         this->organize();
         return;
     }
 
-    /* On this page */
-    SearchViewTitle *titleOnThisPage = new SearchViewTitle("On this page", mWidget);
-    mWidgets.push_back(titleOnThisPage);
+    if (Application::getWindow()->getWebContainer()->getWebView()->url().isLocalFile())
+    {
+        SearchViewSeparator *sepService = new SearchViewSeparator(mWidget);
+        mWidgets.push_back(sepService);
 
-    QString oc = mWord;
-    oc += " (";
-    oc += QString::number(searchOccurrences());
-    oc += " results)";
-    SearchViewItem *it = new SearchViewItem(oc, mWidget);
-    mWidgets.push_back(it);
+        /* On this page */
+        SearchViewTitle *titleOnThisPage = new SearchViewTitle("On this page", mWidget);
+        mWidgets.push_back(titleOnThisPage);
+
+        QString oc = mWord;
+        oc += " (";
+        oc += QString::number(searchOccurrences());
+        oc += " results)";
+        SearchViewItem *it = new SearchViewItem(oc, mWidget);
+        mWidgets.push_back(it);
+    }
 
     /*Application::getWindow()->getWebContainer()->getWebView()->findText("", QWebPage::HighlightAllOccurrences);
     Application::getWindow()->getWebContainer()->getWebView()->findText(mWord, QWebPage::HighlightAllOccurrences);
