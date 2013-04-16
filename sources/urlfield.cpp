@@ -247,7 +247,7 @@ void UrlField::paintEvent(QPaintEvent *e)
     p.drawRoundedRect(rect, 2, 2);
 
     /* Progress Bar */
-    if (mProgress > 0)
+    if (mProgress > 0 && mProgress < 100)
     {
         g = QLinearGradient(0, 0, this->width(), 0);
         g.setColorAt(0, QColor("#a3cae9"));
