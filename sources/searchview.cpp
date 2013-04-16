@@ -5,8 +5,6 @@
 
 #include <QtXml/QtXml>
 
-#include <QtCore/QDebug>
-
 SearchViewTitle::SearchViewTitle(QString t, QWidget *p) : QAbstractButton(p)
 {
     this->setFixedHeight(22);

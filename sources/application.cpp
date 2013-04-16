@@ -76,7 +76,6 @@ bool Application::event(QEvent *e)
             url.remove(0, QString("file:").length());
         }
         w->getWebContainer()->newTab(url);
-        qDebug() << url;
 
         return true;
     }

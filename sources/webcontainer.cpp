@@ -7,7 +7,6 @@
 #include <QtGui/QGridLayout>
 #include <QtGui/QDesktopServices>
 
-#include <QtCore/QDebug>
 #include <QtCore/QPropertyAnimation>
 
 WebContainer::WebContainer(QWidget *parent) : QWidget(parent)

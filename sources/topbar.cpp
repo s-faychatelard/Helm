@@ -7,8 +7,6 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QDesktopWidget>
 
-#include <QtCore/QDebug>
-
 TopBar::TopBar(QWidget *parent) : QToolBar(parent)
 {
     this->setFixedHeight(36);

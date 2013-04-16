@@ -48,7 +48,6 @@ void WebView::releaseScreenshot()
 
 void WebView::loadFinish(bool success)
 {
-    qDebug() << success << this->url().isValid();
     Application::getWindow()->getTopBar()->getUrlField()->setProgress(0);
 
     if (!success && this->url().isValid())

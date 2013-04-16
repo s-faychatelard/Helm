@@ -2,8 +2,6 @@
 
 #include "../../includes/application.h"
 
-#include <QtCore/QDebug>
-
 #define MAX_WIDTH_TAB 150
 
 TabItem::TabItem(QWidget *parent) : QAbstractButton(parent)

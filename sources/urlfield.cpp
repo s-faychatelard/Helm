@@ -6,8 +6,6 @@
 #include <QtGui/QPainter>
 #include <QtGui/QKeyEvent>
 
-#include <QtCore/QDebug>
-
 UrlField::UrlField(QWidget *parent) : QLineEdit(parent)
 {
     this->setFixedHeight(26);
