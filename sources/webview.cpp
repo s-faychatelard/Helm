@@ -23,6 +23,7 @@ WebView::WebView(QWidget *parent) : QWebView(parent)
     this->settings()->setOfflineWebApplicationCachePath(Application::dataLocation() + "Offline/Cache/");
 
     connect(this, SIGNAL(loadFinished(bool)), this, SLOT(loadFinish(bool)));
+    connect(this->page(), SIGNAL(unsupportedContent(QNetworkReply*)), this, SLOT(unsupportedFormat(QNetworkReply*)));
     //this->setStyleSheet("QWidget{ background: transparent;}");
 
     if (cookies == NULL)
@@ -47,17 +48,25 @@ void WebView::releaseScreenshot()
 
 void WebView::loadFinish(bool success)
 {
+    qDebug() << success << this->url().isValid();
     Application::getWindow()->getTopBar()->getUrlField()->setProgress(0);
 
-    if (!success)
+    if (!success && this->url().isValid())
+    {
+        qDebug() << "TODO print No internet or some information";
+    }
+    else if (!success)
     {
         QString search = Application::getWindow()->getTopBar()->getUrlField()->text();
         if (search.startsWith("http://"))
             search = search.remove("http://");
         this->load(QUrl("http://google.com/search?q=" + search));
     }
+}
 
-    this->page()->findText("TimeClock", QWebPage::HighlightAllOccurrences);
+void WebView::unsupportedFormat(QNetworkReply*)
+{
+    qDebug() << "TODO unsupportedFormat";
 }
 
 int WebView::focusedIndexElement()

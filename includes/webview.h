@@ -18,6 +18,7 @@ public:
 
 protected slots:
     void loadFinish(bool);
+    void unsupportedFormat(QNetworkReply*);
 
 protected:
     void wheelEvent(QWheelEvent *);
