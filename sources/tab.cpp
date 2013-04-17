@@ -6,7 +6,7 @@
 
 TabItem::TabItem(QWidget *parent) : QAbstractButton(parent)
 {
-    this->setFixedHeight(25);
+    this->setFixedHeight(24);
 }
 
 void TabItem::setSelected(bool isSelected)
@@ -41,9 +41,23 @@ void TabItem::paintEvent(QPaintEvent *)
     p.setBrush(g);
     p.drawRoundedRect(rect, 2, 2);
 
+    if (mSelected)
+    {
+        p.setOpacity(.1);
+        p.setBrush(QColor("#7683c6"));
+        p.drawRoundedRect(rect, 2, 2);
+        p.setOpacity(1);
+    }
+
     rect.setX(rect.x() + 10);
     rect.setWidth(rect.width() - 10);
 
+    if (!this->icon().isNull())
+    {
+        p.drawPixmap(5, 4, 16, 16, this->icon().pixmap(16, 16));
+        rect.setX(16 + 5 + 5);
+        rect.setWidth(this->width() - rect.x());
+    }
     p.setPen(Qt::black);
     p.drawText(rect, Qt::AlignVCenter, this->text());
 }
@@ -56,7 +70,7 @@ Tab::Tab(QWidget *parent) : QWidget(parent)
     QHBoxLayout *hLayout = new QHBoxLayout(this);
     hLayout->setAlignment(Qt::AlignCenter);
     hLayout->setSpacing(5);
-    hLayout->setMargin(10);
+    hLayout->setMargin(0);
     this->setLayout(hLayout);
 }
 
@@ -86,10 +100,11 @@ void Tab::updateWithWebViews(QList<WebView*>* webviews)
 
     mItems.clear();
 
-    if (webviews->count() <= 1)
+    /*if (webviews->count() <= 1)
         this->hide();
     else
-        this->show();
+        this->show();*/
+    this->show();
 
     int xOffset=10;
     for (int i=0; i<webviews->count(); i++)
@@ -105,6 +120,8 @@ void Tab::updateWithWebViews(QList<WebView*>* webviews)
             item->setText("No title");
         }
 
+        item->setIcon(webviews->at(i)->icon());
+
         QFontMetrics metrics = item->fontMetrics();
         int width = metrics.width(item->text());
 
@@ -112,6 +129,9 @@ void Tab::updateWithWebViews(QList<WebView*>* webviews)
             width = MAX_WIDTH_TAB;
 
         item->setFixedWidth(width + 25);
+
+        if (!webviews->at(i)->icon().isNull())
+            item->setFixedWidth(width + 30);
 
         this->layout()->addWidget(item);
 
