@@ -42,12 +42,14 @@ void WebContainer::showHome()
 {
     if (mHome->isVisible()) return;
 
-    QPropertyAnimation *animation = new QPropertyAnimation(mTab, "geometry");
+    QPropertyAnimation *animation;
+    /*animation = new QPropertyAnimation(mTab, "geometry");
     connect(animation, SIGNAL(finished()), mTab, SLOT(hide()));
     animation->setDuration(ANIMATION_DURATION);
     animation->setStartValue(mTab->geometry());
     animation->setEndValue(QRect(this->width(), 0, this->width(), 0));
-    animation->start();
+    animation->start();*/
+    mTab->select(-1);
 
     if (mCurrentWebView != -1)
     {
@@ -69,6 +71,7 @@ void WebContainer::showHome()
 
     mHome->show();
     mHome->raise();
+    mTab->raise();
 
     Application::getWindow()->getTopBar()->getUrlField()->hide();
 
@@ -85,12 +88,13 @@ void WebContainer::showHome()
 
 void WebContainer::hideHome()
 {
-    QPropertyAnimation *animation = new QPropertyAnimation(mTab, "geometry");
+    QPropertyAnimation *animation;
+    /*animation = new QPropertyAnimation(mTab, "geometry");
     animation->setDuration(ANIMATION_DURATION);
     animation->setStartValue(QRect(this->width(), 0, this->width(), 0));
     animation->setEndValue(QRect(0, 0, this->width(), 0));
     animation->start();
-    mTab->show();
+    mTab->show();*/
 
     if (mCurrentWebView != -1)
     {
@@ -178,6 +182,9 @@ void WebContainer::newTab(QString url)
         animation->setEndValue(QRect(MARGIN, MARGIN, this->width() - MARGIN*2, this->height() - MARGIN*2));
         animation->start();
     }
+
+    mTab->updateWithWebViews(mWebViews);
+    mTab->select(mNewTabIndex);
 }
 
 void WebContainer::newTabAnimation()
@@ -326,6 +333,8 @@ void WebContainer::showTab(int index)
 
 void WebContainer::switchAnimated(int previousTab, int newTab)
 {
+    mCurrentWebView = newTab;
+
     for(int i=0; i<mWebViews->count(); i++)
     {
         mWebViews->at(i)->hide();
@@ -455,6 +464,8 @@ void WebContainer::switchToTab(int index)
     m->getTopBar()->getUrlField()->setTitle(mWebViews->at(mCurrentWebView)->title());
     m->getTopBar()->getUrlField()->setText(mWebViews->at(mCurrentWebView)->url().toString());
     m->getTopBar()->getUrlField()->setIcon(mWebViews->at(mCurrentWebView)->icon().pixmap(16, 16));
+
+    if (mHome->isVisible()) mHome->hide();
 }
 
 void WebContainer::switchToNextTab()
@@ -479,6 +490,13 @@ void WebContainer::switchToPreviousTab()
 void WebContainer::showSwitcher()
 {
     mTab->updateWithWebViews(mWebViews);
+    mTab->select(-1);
+
+    QPropertyAnimation *animation = new QPropertyAnimation(mTab, "geometry");
+    animation->setDuration(ANIMATION_DURATION);
+    animation->setStartValue(QRect(0, -mTab->height(), this->width(), 0));
+    animation->setEndValue(QRect(0, 0, this->width(), 0));
+    animation->start();
 
     for(int i=0; i<mWebViews->count(); i++)
     {
@@ -497,6 +515,12 @@ void WebContainer::showSwitcher()
 
 void WebContainer::hideSwitcher()
 {
+    QPropertyAnimation *animation = new QPropertyAnimation(mTab, "geometry");
+    animation->setDuration(ANIMATION_DURATION);
+    animation->setStartValue(QRect(0, 0, this->width(), 0));
+    animation->setEndValue(QRect(0, -mTab->height(), this->width(), 0));
+    animation->start();
+
     for(int i=0; i<mWebViews->count(); i++)
     {
         mWebViews->at(i)->hide();
@@ -530,7 +554,7 @@ void WebContainer::hideSwitcher()
 
     mWebViews->at(mCurrentWebView)->show();
 
-    QPropertyAnimation *animation = new QPropertyAnimation(mWebViews->at(mCurrentWebView), "geometry");
+    animation = new QPropertyAnimation(mWebViews->at(mCurrentWebView), "geometry");
     connect(animation, SIGNAL(finished()), this, SLOT(releaseScreenshots()));
     animation->setDuration(ANIMATION_DURATION);
     animation->setStartValue(mWebViews->at(mCurrentWebView)->geometry());

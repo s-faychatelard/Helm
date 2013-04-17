@@ -108,10 +108,11 @@ void WebView::setFocusedElement(int index)
 
 void WebView::wheelEvent(QWheelEvent *e)
 {
-    Application::getWindow()->wheelEvent(e);
+    //Application::getWindow()->wheelEvent(e);
 
-    if (!Application::getWindow()->isAltPressed())
+    //if (!Application::getWindow()->isAltPressed())
         QWebView::wheelEvent(e);
+        this->repaint();
 }
 
 void WebView::dropEvent(QDropEvent *e)
