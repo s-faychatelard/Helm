@@ -464,6 +464,7 @@ void WebContainer::switchToTab(int index)
     m->getTopBar()->getUrlField()->setTitle(mWebViews->at(mCurrentWebView)->title());
     m->getTopBar()->getUrlField()->setText(mWebViews->at(mCurrentWebView)->url().toString());
     m->getTopBar()->getUrlField()->setIcon(mWebViews->at(mCurrentWebView)->icon().pixmap(16, 16));
+    m->getTopBar()->getUrlField()->show();
 
     if (mHome->isVisible()) mHome->hide();
 }
