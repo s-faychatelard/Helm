@@ -120,18 +120,32 @@ void Tab::updateWithWebViews(QList<WebView*>* webviews)
             item->setText("No title");
         }
 
-        item->setIcon(webviews->at(i)->icon());
+        if (webviews->at(i)->icon().isNull())
+            item->setIcon(QIcon(QPixmap(":/favicon.png")));
+        else
+            item->setIcon(webviews->at(i)->icon());
 
+#define MAX_TITLE_LENGTH 30
+        if (item->text().length() > MAX_TITLE_LENGTH)
+        {
+            if (item->text().contains("-"))
+            {
+                item->setText(item->text().left(item->text().indexOf("-")));
+            }
+            else if (item->text().contains("|"))
+            {
+                item->setText(item->text().left(item->text().indexOf("|")));
+            }
+
+            if (item->text().length() > MAX_TITLE_LENGTH)
+            {
+                item->setText(item->text().left(MAX_TITLE_LENGTH - 3) + "...");
+            }
+        }
         QFontMetrics metrics = item->fontMetrics();
         int width = metrics.width(item->text());
 
-        if (width > MAX_WIDTH_TAB)
-            width = MAX_WIDTH_TAB;
-
-        item->setFixedWidth(width + 25);
-
-        if (!webviews->at(i)->icon().isNull())
-            item->setFixedWidth(width + 30);
+        item->setFixedWidth(width + 32);
 
         this->layout()->addWidget(item);
 
