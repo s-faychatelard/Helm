@@ -52,7 +52,7 @@ void WebView::loadFinish(bool success)
 
     if (!success && this->url().isValid())
     {
-        qDebug() << "TODO print No internet or some information";
+        qDebug() << "TODO print No internet or .dmg, .zip, .tar.gz, .tar";
     }
     else if (!success)
     {
