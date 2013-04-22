@@ -42,6 +42,8 @@ void WebContainer::showHome()
 {
     if (mHome->isVisible()) return;
 
+    mTab->getHome()->setSelected();
+
     QPropertyAnimation *animation;
     /*animation = new QPropertyAnimation(mTab, "geometry");
     connect(animation, SIGNAL(finished()), mTab, SLOT(hide()));
@@ -69,6 +71,14 @@ void WebContainer::showHome()
         animation->start();
     }
 
+    for(int i=0; i<mWebViews->count(); i++)
+    {
+        if (i == mCurrentWebView || i == mCurrentWebView +1)
+            continue;
+
+        mWebViews->at(i)->hide();
+    }
+
     mHome->show();
     mHome->raise();
     mTab->raise();
@@ -88,6 +98,8 @@ void WebContainer::showHome()
 
 void WebContainer::hideHome()
 {
+    mTab->getHome()->setSelected(false);
+
     QPropertyAnimation *animation;
     /*animation = new QPropertyAnimation(mTab, "geometry");
     animation->setDuration(ANIMATION_DURATION);

@@ -24,6 +24,7 @@ public:
 
     WebView* getWebView();
 
+    void showHome();
     void showSwitcher();
     void hideSwitcher();
     void switchToNextTab();
@@ -59,7 +60,6 @@ private:
 
     int mNewTabIndex; // Only used for new tab animation
 
-    void showHome();
     void hideHome();
     void showTab(int index);
     void disconnectCurrentWebView();

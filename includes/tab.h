@@ -26,6 +26,7 @@ class Tab : public QWidget
 public:
     Tab(QWidget *parent = 0);
 
+    TabItem *getHome();
     void select(int index);
     void updateWithWebViews(QList<WebView*>*);
 
@@ -33,6 +34,7 @@ protected slots:
     void clicked();
 
 private:
+    TabItem *mHome;
     QList<TabItem*> mItems;
 };
 

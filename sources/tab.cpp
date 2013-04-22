@@ -6,6 +6,8 @@
 
 TabItem::TabItem(QWidget *parent) : QAbstractButton(parent)
 {
+    mSelected = false;
+
     this->setFixedHeight(24);
 }
 
@@ -72,12 +74,35 @@ Tab::Tab(QWidget *parent) : QWidget(parent)
     hLayout->setSpacing(5);
     hLayout->setMargin(0);
     this->setLayout(hLayout);
+
+    mHome = new TabItem(this);
+    connect(mHome, SIGNAL(clicked()), this, SLOT(clicked()));
+    mHome->setText("");
+    mHome->setIcon(QIcon(QPixmap(":/home.png")));
+    mHome->setFixedWidth(26);
+    mHome->setSelected();
+    this->layout()->addWidget(mHome);
 }
 
 void Tab::clicked()
 {
     TabItem *item = (TabItem*)QObject::sender();
-    Application::getWindow()->getWebContainer()->switchToTab(mItems.indexOf(item));
+
+    mHome->setSelected(false);
+
+    int index = mItems.indexOf(item);
+    if (index == -1)
+    {
+        Application::getWindow()->getWebContainer()->showHome();
+        return;
+    }
+
+    Application::getWindow()->getWebContainer()->switchToTab(index);
+}
+
+TabItem *Tab::getHome()
+{
+    return mHome;
 }
 
 void Tab::select(int index)

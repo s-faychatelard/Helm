@@ -10,5 +10,6 @@
         <file>favicon.png</file>
         <file>mainbg.png</file>
         <file>sharebg.png</file>
+        <file>home.png</file>
     </qresource>
 </RCC>
