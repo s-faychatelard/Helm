@@ -1,6 +1,6 @@
 #include "../../includes/home.h"
 
-#include <QtGui/QGridLayout>
+#include <QtWidgets/QGridLayout>
 
 Home::Home(QWidget *parent) : QWidget(parent)
 {

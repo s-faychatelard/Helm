@@ -5,7 +5,7 @@
 #include "../../includes/shareview.h"
 #include "../../includes/webviewcookie.h"
 
-#include <QtGui/QGridLayout>
+#include <QtWidgets/QGridLayout>
 
 #include <QtCore/QDir>
 #include <QtCore/QDebug>

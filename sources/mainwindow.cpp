@@ -1,8 +1,8 @@
 #include "../../includes/mainwindow.h"
 
-#include <QtGui/QMenuBar>
+#include <QtWidgets/QMenuBar>
 #include <QtGui/QPainter>
-#include <QtGui/QGridLayout>
+#include <QtWidgets/QGridLayout>
 
 #if defined(Q_OS_DARWIN)
 #include "../../includes/others/mac/mac.h"

@@ -1,6 +1,6 @@
 #include "../../includes/shareview.h"
 
-#include <QtGui/QLayout>
+#include <QtWidgets/QLayout>
 #include <QtGui/QPainter>
 #include <QtGui/QDropEvent>
 #include <QtGui/QDragEnterEvent>

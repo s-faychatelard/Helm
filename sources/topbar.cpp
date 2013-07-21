@@ -4,8 +4,8 @@
 #include "../../includes/fullscreenbutton.h"
 
 #include <QtGui/QPainter>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QDesktopWidget>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QDesktopWidget>
 
 TopBar::TopBar(QWidget *parent) : QToolBar(parent)
 {

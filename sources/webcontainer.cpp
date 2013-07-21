@@ -4,7 +4,7 @@
 #include "../../includes/mainwindow.h"
 #include "../../includes/urlfield.h"
 
-#include <QtGui/QGridLayout>
+#include <QtWidgets/QGridLayout>
 #include <QtGui/QDesktopServices>
 
 #include <QtCore/QPropertyAnimation>
